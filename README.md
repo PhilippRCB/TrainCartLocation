@@ -1,2 +1,2 @@
 # TrainCartLocation
-Small demo projecy
+Small demo project
