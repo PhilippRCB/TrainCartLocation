@@ -3,11 +3,13 @@ package com.example.traincartlocation;
 import java.io.File;
 
 public class FileFinder {
+
+    private final String directory = "./Data/TrainData/";
     private String fileName = "";
     private final File xmlFile;
     public FileFinder (String ril100){
         fileName = findFile(ril100 + "_");
-        xmlFile = new File(fileName);
+        xmlFile = new File(directory + fileName);
     }
 
     public String getFileName() {
@@ -15,7 +17,7 @@ public class FileFinder {
     }
 
     private String findFile(String ril100) {
-        File[] dataFiles = new File("./Data/TrainData/").listFiles();
+        File[] dataFiles = new File(directory).listFiles();
         if (dataFiles == null) return "no File";
         for (File file : dataFiles) {
             String fileName = file.getName();
