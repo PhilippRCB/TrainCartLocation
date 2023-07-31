@@ -6,10 +6,8 @@ public class FileFinder {
 
     private final String directory = "./Data/TrainData/";
     private String fileName = "";
-    private final File xmlFile;
     public FileFinder (String ril100){
-        fileName = findFile(ril100 + "_");
-        xmlFile = new File(directory + fileName);
+        fileName = directory + findFile(ril100 + "_");
     }
 
     public String getFileName() {
@@ -25,9 +23,5 @@ public class FileFinder {
                 return fileName;
         }
         return "no Match";
-    }
-
-    public File getXmlFile() {
-        return xmlFile;
     }
 }
