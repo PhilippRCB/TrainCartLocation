@@ -1,7 +1,6 @@
 package com.example.traincartlocation;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -29,34 +28,32 @@ public class XmlParser {
         try {
             NodeList trains = (NodeList) xPath.compile("/station/tracks/track/trains/train").evaluate(xmlDom, XPathConstants.NODESET);
             for (int i = 0; i < trains.getLength(); i++) {
-                Node trainNode = trains.item(i);
+                Node train = trains.item(i);
                 boolean correctTrain = false;
-                if (trainNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element train = (Element) trainNode;
-                    NodeList trainNumbers = (NodeList) xPath.compile("trainNumbers/trainNumber").evaluate(train, XPathConstants.NODESET);
-                    for (int j = 0; j < trainNumbers.getLength(); j++) {
-                        int number = Integer.parseInt(trainNumbers.item(j).getTextContent());
-                        if (number == trainNumber) {
-                            correctTrain = true;
-                            break;
-                        }
+                NodeList trainNumbers = (NodeList) xPath.compile("trainNumbers/trainNumber").evaluate(train, XPathConstants.NODESET);
+                for (int j = 0; j < trainNumbers.getLength(); j++) {
+                    int number = Integer.parseInt(trainNumbers.item(j).getTextContent());
+                    if (number == trainNumber) {
+                        correctTrain = true;
+                        break;
                     }
-                    if (correctTrain) {
-                        NodeList wagons = (NodeList) xPath.compile("waggons/waggon").evaluate(train, XPathConstants.NODESET);
-                        for (int k = 0; k < wagons.getLength(); k++) {
-                            Node wagon = wagons.item(k);
-                            String numberString = (String) xPath.compile("number").evaluate(wagon, XPathConstants.STRING);
-                            if (!numberString.isEmpty() && Integer.parseInt(numberString) == wagonNumber) {
-                                NodeList sections = (NodeList) xPath.compile("sections/identifier").evaluate(wagon, XPathConstants.NODESET);
-                                results = new String[sections.getLength()];
-                                for (int l = 0; l < sections.getLength(); l++) {
-                                    results[l] = sections.item(l).getTextContent();
-                                }
-                                return results;
+                }
+                if (correctTrain) {
+                    NodeList wagons = (NodeList) xPath.compile("waggons/waggon").evaluate(train, XPathConstants.NODESET);
+                    for (int k = 0; k < wagons.getLength(); k++) {
+                        Node wagon = wagons.item(k);
+                        String numberString = (String) xPath.compile("number").evaluate(wagon, XPathConstants.STRING);
+                        if (!numberString.isEmpty() && Integer.parseInt(numberString) == wagonNumber) {
+                            NodeList sections = (NodeList) xPath.compile("sections/identifier").evaluate(wagon, XPathConstants.NODESET);
+                            results = new String[sections.getLength()];
+                            for (int l = 0; l < sections.getLength(); l++) {
+                                results[l] = sections.item(l).getTextContent();
                             }
+                            return results;
                         }
                     }
                 }
+
             }
         } catch (XPathExpressionException e) {
             throw new RuntimeException(e);
