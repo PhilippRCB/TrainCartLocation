@@ -10,7 +10,9 @@ public class APIRequestController {
     @GetMapping("/station/{ril100}/train/{trainNumber}/waggon/{number}")
     public String sectionRequest(@PathVariable int number, @PathVariable String ril100, @PathVariable int trainNumber){
         FileFinder finder = new FileFinder(ril100);
-        XmlParser parser = new XmlParser(finder.getFileName());
+        String fileName = finder.getFileName();
+        if (fileName.equals("no File") || fileName.equals("no Match")) return fileName;
+        XmlParser parser = new XmlParser(fileName);
         String[] sections = parser.sectionList(trainNumber, number);
         StringBuilder sectionString = new StringBuilder();
         for (String section : sections) sectionString.append("\"%s\",".formatted(section));

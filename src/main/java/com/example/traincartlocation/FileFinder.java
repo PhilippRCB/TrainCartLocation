@@ -4,10 +4,9 @@ import java.io.File;
 
 public class FileFinder {
 
-    private final String directory = "./Data/TrainData/";
     private String fileName = "";
     public FileFinder (String ril100){
-        fileName = directory + findFile(ril100 + "_");
+        fileName = findFile(ril100 + "_");
     }
 
     public String getFileName() {
@@ -15,10 +14,11 @@ public class FileFinder {
     }
 
     private String findFile(String ril100) {
+        String directory = "./Data/TrainData/";
         File[] dataFiles = new File(directory).listFiles();
         if (dataFiles == null) return "no File";
         for (File file : dataFiles) {
-            String fileName = file.getName();
+            String fileName = directory + file.getName();
             if (fileName.toLowerCase().contains(ril100.toLowerCase()))
                 return fileName;
         }

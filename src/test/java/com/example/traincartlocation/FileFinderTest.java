@@ -12,4 +12,9 @@ class FileFinderTest {
         assertEquals("./Data/TrainData/FF_2017-12-01_10-47-17.xml", testFinder.getFileName());
     }
 
+    @Test
+    void invalidRil() {
+        FileFinder testFinder = new FileFinder("demo");
+        assertEquals("no Match", testFinder.getFileName());
+    }
 }

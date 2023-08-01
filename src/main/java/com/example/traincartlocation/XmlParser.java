@@ -19,11 +19,13 @@ public class XmlParser {
     private Document xmlDom;
     public XmlParser (String fileName) {
         xmlFileName = fileName;
-        createDom();
+        File xmlFile = new File(fileName);
+        if (xmlFile.exists()) createDom();
     }
 
     public String[] sectionList(int trainNumber, int wagonNumber){
         String[] results = {""};
+        if (xmlDom == null) return results;
         XPath xPath = XPathFactory.newInstance().newXPath();
         try {
             NodeList trains = (NodeList) xPath.compile("/station/tracks/track/trains/train").evaluate(xmlDom, XPathConstants.NODESET);
